@@ -229,32 +229,14 @@
 <div style="page-break-after:always;"></div>
 <div>
     <h4>
-        <u>{{chart.name}}</u>
+        <u>{{chart.name}} - Radar</u>
     </h4>
     <img src="{{chart.radar}}" />
-    <br />
-    <br />
+    <br>
+    <div style="page-break-after:always;"></div>
+    <h4>
+        <u>{{chart.name}} - Line</u>
+    </h4>
     <img src="{{chart.line}}" />
-    <br />
-    <br />
 </div>
 {{/each}}
-
-{{!--
-
-
-
-<br>
-<div style="page-break-after:always;"></div>
-
-<h3>Charts</h3>
-<div>
-    <br>
-    <div style="page-break-after:always;"></div>
-    <app-vital-signs [data]="visits"></app-vital-signs>
-</div>
-<div *ngFor="let chart of charts">
-    <br>
-    <div style="page-break-after:always;"></div>
-    <app-completed-measurement-tool [showRadarChart]="showRadarChart" [showLineChart]="showLineChart" [data]="chart.data" [name]="chart.name"></app-completed-measurement-tool>
-</div> --}}
