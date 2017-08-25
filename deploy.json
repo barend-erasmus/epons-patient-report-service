@@ -1,0 +1,31 @@
+{
+    "machine": {
+        "host": "$host",
+        "username": "$username",
+        "password": "$password"
+    },
+    "commands": [
+        "sudo apt-get update",
+        "curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -",
+        "sudo apt-get install -y nodejs",
+
+        "npm install pm2 -g",
+
+        "mkdir /logs",
+        "npm --prefix /opt/epons-patient-report-service install",
+        "pm2 stop epons-patient-report-service",
+        "pm2 start /opt/openservices.co.za/src/app.js --name epons-patient-report-service -- --prod --port 9007"
+    ],
+    "directories": [
+        {
+            "source": "$workspace/src",
+            "destination": "/opt/epons-patient-report-service/src"
+        }
+    ],
+    "files": [
+        {
+            "source": "$workspace/package.json",
+            "destination": "/opt/epons-patient-report-service/package.json"
+        }
+    ]
+}

@@ -1,0 +1,336 @@
+<style>
+    * {
+        font-size: 10px;
+    }
+</style>
+<table style="width: 100%">
+    <tr>
+        <td>
+            {{#if facility.Avatar}}
+            <img src="data:image/png;base64,{{facility.Avatar}}" class="img-thumbnail" width="150" height="150" alt="Profile Image">            {{else}}
+            <img src="http://via.placeholder.com/150x150?text=Facility+logo+not+available" class="img-thumbnail" width="150" height="150"
+                alt="Profile Image"> {{/if}}
+        </td>
+        <td>
+            <h2>Progress Report</h2>
+            <label>{{startDate}} to {{endDate}}</label>
+            <h3>{{patient.Firstname}} {{patient.Lastname}}</h3>
+        </td>
+        <td>
+            {{#if patient.Avatar}}
+            <img src="data:image/png;base64,{{patient.Avatar}}" class="img-thumbnail" width="150" height="150" alt="Profile Image">            {{else}}
+            <img src="http://via.placeholder.com/150x150?text=Patient+photograph+not+available" class="img-thumbnail" width="150" height="150"
+                alt="Profile Image"> {{/if}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+
+        </td>
+        <td>
+            <p>{{patient.DateOfBirth}} (Age {{patient.Age}})</p>
+            <p>{{patient.Address.Street}}, {{patient.Address.City.Name}}, {{patient.Address.Province.Name}}, {{patient?.Address.Country.Name}},
+                {{patient.Address.PostalCode}}
+            </p>
+        </td>
+    </tr>
+</table>
+
+<h4>Referring Doctors</h4>
+<table style="width: 100%">
+    <thead>
+        <tr>
+            <th align="left"></th>
+            <th align="left">Email Address</th>
+            <th align="left">Contact Number</th>
+            <th align="left">HPCSA Number</th>
+            <th align="left">Practice Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each referringDoctors as |doctor key|}}
+        <tr>
+            <td>{{doctor.Fullname}}</td>
+            <td>{{doctor.ContactDetails.EmailAddress}}</td>
+            <td>{{doctor.ContactDetails.ContactNumber}}</td>
+            <td>{{doctor.HPCSANumber}}</td>
+            <td>{{doctor.PracticeNumber}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h4>Treating Doctors</h4>
+<table style="width: 100%">
+    <thead>
+        <tr>
+            <th align="left"></th>
+            <th align="left">Email Address</th>
+            <th align="left">Contact Number</th>
+            <th align="left">HPCSA Number</th>
+            <th align="left">Practice Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each treatingDoctors as |doctor key|}}
+        <tr>
+            <td>{{doctor.Fullname}}</td>
+            <td>{{doctor.ContactDetails.EmailAddress}}</td>
+            <td>{{doctor.ContactDetails.ContactNumber}}</td>
+            <td>{{doctor.HPCSANumber}}</td>
+            <td>{{doctor.PracticeNumber}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h4>Episodes of Care</h4>
+<table style="width: 100%">
+    <thead>
+        <tr>
+            <th align="left">Facility</th>
+            <th align="left">Onset Date</th>
+            <th align="left">Admission Date</th>
+            <th align="left">Discharge Date</th>
+            <th align="left">ICD10 Code</th>
+            <th align="left">Impairment Group</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each episodeOfCares as |episodeOfCare key|}}
+        <tr style="{{#if episodeOfCare.DischargeTimestamp}}{{else}}color: red{{/if}}">
+            <td>{{episodeOfCare.Facility.Name}}</td>
+            <td>{{episodeOfCare.OnsetTimestamp}}</td>
+            <td>{{episodeOfCare.AdmissionTimestamp}}</td>
+            <td>{{episodeOfCare.DischargeTimestamp}}</td>
+            <td>{{episodeOfCare.Diagnoses.Name}}</td>
+            <td>{{episodeOfCare.ImpairmentGroup.Name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h4>Diagnoses</h4>
+<table style="width: 100%">
+    <thead>
+        <tr>
+            <th align="left">ICD10 Code</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each diagnoses as |item key|}}
+        <tr>
+            <td>{{item.Name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<br>
+<div style="page-break-after:always;"></div>
+<h4>Measurement Tools</h4>
+<table style="width: 100%">
+    <thead>
+        <tr>
+            <th align="left"></th>
+            <th align="left">Frequency</th>
+            <th align="left">Start</th>
+            <th align="left">End</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each patient.MeasurementToolDetails as |measurementTool key|}}
+        <tr style="{{#if measurementTool.DeassignedTimestamp}}{{else}}color: red{{/if}}">
+            <td>{{measurementTool.MeasurementTool.Name}}</td>
+            <td>{{measurementTool.Frequency.Name}}</td>
+            <td>{{measurementTool.AssignedTimestamp}}</td>
+            <td>{{measurementTool.DeassignedTimestamp}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h4>Multidisciplinary Team</h4>
+<table style="width: 100%">
+    <thead>
+        <tr>
+            <th align="left">Clinician</th>
+            <th align="left">Position</th>
+            <th align="left">Start</th>
+            <th align="left">End</th>
+            <th align="left">Facility</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each patient.TeamMembers as |teamMember key|}}
+        <tr style="{{#if teamMember.DeallocationTimestamp}}{{else}}color: red{{/if}}">
+            <td>{{teamMember.User.Fullname}}</td>
+            <td>{{teamMember.User.Position?.Name}}</td>
+            <td>{{teamMember.AllocationTimestamp}}</td>
+            <td>{{teamMember.DeallocationTimestamp}}</td>
+            <td>{{teamMember.Facility?.Name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{!--
+<h4>Treating Doctors</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Email Address</th>
+            <th>Contact Number</th>
+            <th>HPCSA Number</th>
+            <th>Practice Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let doctor of treatingDoctors">
+            <td>{{doctor.Fullname}}</td>
+            <td>{{doctor.ContactDetails.EmailAddress}}</td>
+            <td>{{doctor.ContactDetails.ContactNumber}}</td>
+            <td>{{doctor.HPCSANumber}}</td>
+            <td>{{doctor.PracticeNumber}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h4>Episodes of Care</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Facility</th>
+            <th>Onset Date</th>
+            <th>Admission Date</th>
+            <th>Discharge Date</th>
+            <th>ICD10 Code</th>
+            <th>Impairment Group</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let episodeOfCare of episodeOfCares" class="{{episodeOfCare.dischargeTimestamp? '' : 'text-danger'}}">
+            <td>{{episodeOfCare.Facility?.Name}}</td>
+            <td>{{episodeOfCare.OnsetTimestamp | date: 'yyyy-MM-dd'}}</td>
+            <td>{{episodeOfCare.AdmissionTimestamp | date: 'yyyy-MM-dd HH:mm'}}</td>
+            <td>{{episodeOfCare.DischargeTimestamp | date: 'yyyy-MM-dd HH:mm'}}</td>
+            <td>{{episodeOfCare.Diagnoses?.Name}}</td>
+            <td>{{episodeOfCare.ImpairmentGroup?.Name}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h4>Diagnoses</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ICD10 Code</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of diagnoses">
+            <td>{{item.Name}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h4>Measurement Tools</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Frequency</th>
+            <th>Start</th>
+            <th>End</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let measurementTool of patient?.MeasurementToolDetails" class="{{measurementTool.DeassignedTimestamp? '' : 'text-danger'}}">
+            <td>{{measurementTool.MeasurementTool.Name}}</td>
+            <td>{{measurementTool.Frequency.Name}}</td>
+            <td>{{measurementTool.AssignedTimestamp | date: 'yyyy-MM-dd'}}</td>
+            <td>{{measurementTool.DeassignedTimestamp | date: 'yyyy-MM-dd'}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h4>Multidisciplinary Team</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Clinician</th>
+            <th>Position</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Facility</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let teamMember of patient?.TeamMembers" class="{{teamMember.DeallocationTimestamp? '' : 'text-danger'}}">
+            <th>{{teamMember.User.Fullname}}</th>
+            <th>{{teamMember.User.Position?.Name}}</th>
+            <th>{{teamMember.AllocationTimestamp | date: 'yyyy-MM-dd'}}</th>
+            <th>{{teamMember.DeallocationTimestamp | date: 'yyyy-MM-dd'}}</th>
+            <th>{{teamMember.Facility?.Name}}</th>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Case Manager Notes</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th>Note</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let note of caseManagerNotes">
+            <td>
+                {{note.Timestamp | date: 'yyyy-MM-dd HH:mm'}}
+                <br /> {{note.User.Fullname}}
+                <br /> {{note.Duration}} minutes
+            </td>
+            <td>
+                <div [innerHTML]="note.ProgressNotes | safeHtml">
+
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Support Services</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Support Services</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let supportService of patient?.SupportServices">
+            <td>{{supportService.SupportService.Name}}</td>
+            <td>{{supportService.Text}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+<div style="page-break-after:always;"></div>
+
+<h3>Charts</h3>
+<div>
+    <br>
+    <div style="page-break-after:always;"></div>
+    <app-vital-signs [data]="visits"></app-vital-signs>
+</div>
+<div *ngFor="let chart of charts">
+    <br>
+    <div style="page-break-after:always;"></div>
+    <app-completed-measurement-tool [showRadarChart]="showRadarChart" [showLineChart]="showLineChart" [data]="chart.data" [name]="chart.name"></app-completed-measurement-tool>
+</div> --}}

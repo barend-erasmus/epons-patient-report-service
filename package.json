@@ -1,0 +1,37 @@
+{
+  "name": "epons-patient-report-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc & mocha ./src/**/*.test.js",
+    "coverage": "tsc & istanbul cover node_modules/mocha/bin/_mocha --root ./src ./src/**/*.test.js",
+    "start": "tsc & node ./src/app.js",
+    "lint": "tslint ./src/**/*.ts --exclude ./src/**/*.d.ts",
+    "deploy": "tsc & ssh-deployer -f deploy.json --host developersworkspace.co.za --username username --password password --workspace ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barend-erasmus/epons-patient-report-service.git"
+  },
+  "author": "Barend Erasmus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/barend-erasmus/epons-patient-report-service/issues"
+  },
+  "homepage": "https://github.com/barend-erasmus/epons-patient-report-service#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.10",
+    "moment": "^2.18.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "yargs": "^8.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.0.36",
+    "@types/node": "^8.0.24"
+  }
+}
