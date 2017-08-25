@@ -2,6 +2,7 @@
 import * as express from 'express';
 import * as path from 'path';
 import * as yargs from 'yargs';
+import * as cors from 'cors';
 
 // Imports middleware
 import * as bodyParser from 'body-parser';
@@ -15,7 +16,9 @@ const app = express();
 
 // Configures body parser
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+
+app.use(cors());
 
 // Configures static content
 app.use('/static', express.static(path.join(__dirname, 'public')));
@@ -29,7 +32,7 @@ app.engine('handlebars', exphbs({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
-app.get('/', HomeRouter.index);
+app.post('/', HomeRouter.index);
 
 app.listen(argv.port || 3000, () => {
     console.log(`listening on port ${argv.port || 3000}`);

@@ -14,7 +14,7 @@
         "mkdir /logs",
         "npm --prefix /opt/epons-patient-report-service install",
         "pm2 stop epons-patient-report-service",
-        "pm2 start /opt/openservices.co.za/src/app.js --name epons-patient-report-service -- --prod --port 9007"
+        "pm2 start /opt/epons-patient-report-service/src/app.js --name epons-patient-report-service -- --prod --port 9003"
     ],
     "directories": [
         {

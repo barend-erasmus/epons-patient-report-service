@@ -10,10 +10,26 @@ export class HomeRouter {
 
     public static async index(req: express.Request, res: express.Response) {
 
-        const startDate = moment().subtract(1, 'years').toDate();
-        const endDate = new Date();
-        const patientId = 'c9033691-1bf6-4e41-a85d-796f6d591018';
-        const facilityId = '5355e9ee-2b79-4f55-a64b-ea8321e79386';
+        const startDate = req.body.startDate;
+        const endDate = req.body.endDate;
+        const patientId = req.body.patientId;
+        const facilityId = req.body.facilityId;
+
+        const vitalSignsChart = req.body.charts['Vital Signs']['line'];
+
+        const charts = [];
+
+        for (const chart in req.body.charts) {
+            if (chart === 'Vital Signs') {
+                continue;
+            }
+
+            charts.push({
+                line: req.body.charts[chart]['line'],
+                name: chart,
+                radar: req.body.charts[chart]['radar'],
+            });
+        }
 
         const patient = await request({
             headers: {
@@ -36,7 +52,7 @@ export class HomeRouter {
                 apikey: '2c0d64c1-d002-45f2-9dc4-784c24e996',
             },
             json: true,
-            uri: `http://api.sadfm.co.za/api/Visit/ListCompletedMeasurementTools?patientId=${patientId}&startDate=${moment(startDate).format('YYYY-MM-DD')}&endDate=${moment(endDate).format('YYYY-MM-DD')}`,
+            uri: `http://api.sadfm.co.za/api/Visit/List?patientId=${patientId}&startDate=${moment(startDate).format('YYYY-MM-DD')}&endDate=${moment(endDate).format('YYYY-MM-DD')}`,
         });
 
         const episodeOfCares = await request({
@@ -58,6 +74,15 @@ export class HomeRouter {
             element.DeassignedTimestamp = element.DeassignedTimestamp? moment(element.DeassignedTimestamp).format('YYYY-MM-DD') : null;
         });
 
+        patient.TeamMembers.forEach(element => {
+            element.AllocationTimestamp = moment(element.AllocationTimestamp).format('YYYY-MM-DD');
+            element.DeallocationTimestamp = element.DeallocationTimestamp? moment(element.DeallocationTimestamp).format('YYYY-MM-DD') : null;
+        });
+
+        visits.forEach(element => {
+            element.Timestamp = moment(element.Timestamp).format('YYYY-MM-DD HH:mm');
+        });
+
         patient.DateOfBirth = patient.DateOfBirth? moment(patient.DateOfBirth).format('YYYY-MM-DD') : null;
 
         const diagnoses = episodeOfCares.filter((x) => x.Diagnoses).map((x) => x.Diagnoses).filter((x, index, self) => self.findIndex((y) => { return y.Id === x.Id }) === index);
@@ -65,7 +90,15 @@ export class HomeRouter {
         const referringDoctors = episodeOfCares.filter((x) => x.ReferringDoctor).map((x) => x.ReferringDoctor);
         const treatingDoctors = episodeOfCares.filter((x) => x.TreatingDoctor).map((x) => x.TreatingDoctor);
 
+        const caseManagerNotes = visits.filter((visit) => {
+            const note = visit.ProgressNotes ? visit.ProgressNotes.replace(/<(?:.|\n)*?>/gm, '') : null;
+    
+            return note? true: false;
+          });
+
         const html = await HomeRouter.renderPage(path.join(__dirname, '../template.handlebars'), {
+            caseManagerNotes,
+            charts,
             diagnoses,
             endDate: moment(endDate).format('DD MMMM YYYY'),
             episodeOfCares,
@@ -74,6 +107,7 @@ export class HomeRouter {
             referringDoctors,
             startDate: moment(startDate).format('DD MMMM YYYY'),
             treatingDoctors,
+            vitalSignsChart,
         });
 
         const pdfResult = await request({
