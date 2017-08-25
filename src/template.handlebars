@@ -225,18 +225,22 @@
 </div>
 
 {{#each charts as |chart key|}}
-<br>
-<div style="page-break-after:always;"></div>
 <div>
+    {{#if chart.radar}}
+    <br>
+    <div style="page-break-after:always;"></div>
     <h4>
         <u>{{chart.name}} - Radar</u>
     </h4>
     <img src="{{chart.radar}}" />
+    {{/if}}
+    {{#if chart.line}}
     <br>
     <div style="page-break-after:always;"></div>
     <h4>
         <u>{{chart.name}} - Line</u>
     </h4>
     <img src="{{chart.line}}" />
+    {{/if}}
 </div>
 {{/each}}
