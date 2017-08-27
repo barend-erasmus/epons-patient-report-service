@@ -32,8 +32,8 @@ app.engine('handlebars', exphbs({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
-app.post('/', HomeRouter.index);
+app.post('/epons-patient-report-service/', HomeRouter.index);
 
-app.listen(argv.port || 3000, () => {
-    console.log(`listening on port ${argv.port || 3000}`);
+app.listen(argv.port || process.env.PORT || 3000, () => {
+    console.log(`listening on port ${argv.port || process.env.PORT || 3000}`);
 });

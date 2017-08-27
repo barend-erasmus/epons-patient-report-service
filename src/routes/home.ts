@@ -15,7 +15,7 @@ export class HomeRouter {
         const patientId = req.body.patientId;
         const facilityId = req.body.facilityId;
 
-        const vitalSignsChart = req.body.charts['Vital Signs']['line'];
+        const vitalSignsChart = req.body.charts['Vital Signs']? req.body.charts['Vital Signs']['line'] : null;
 
         const charts = [];
 
@@ -120,7 +120,7 @@ export class HomeRouter {
             json: true,
             encoding: null,
             method: 'POST',
-            uri: `https://html-converter.openservices.co.za/api/convert/topdf`,
+            uri: `http://html-converter.openservices.co.za/api/convert/topdf`,
         });
 
         // res.setHeader('Content-disposition', 'attachment; filename=report.pdf');
