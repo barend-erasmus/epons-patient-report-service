@@ -1,248 +1,242 @@
-<style>
-
-</style>
-<table style="width: 100%">
-    <tr>
-        <td>
-            {{#if facility.Avatar}}
-            <img src="data:image/png;base64,{{facility.Avatar}}" class="img-thumbnail" width="100" height="100" alt="Profile Image">            {{else}}
-            <img src="http://via.placeholder.com/100x100?text=Facility+logo+not+available" class="img-thumbnail" width="100" height="100"
-                alt="Profile Image"> {{/if}}
-        </td>
-        <td>
-            <h2>Progress Report</h2>
-            <label>{{startDate}} to {{endDate}}</label>
-            <h3>{{patient.Firstname}} {{patient.Lastname}}</h3>
-        </td>
-        <td>
-            {{#if patient.Avatar}}
-            <img src="data:image/png;base64,{{patient.Avatar}}" class="img-thumbnail" width="100" height="100" alt="Profile Image">            {{else}}
-            <img src="http://via.placeholder.com/100x100?text=Patient+photograph+not+available" class="img-thumbnail" width="100" height="100"
-                alt="Profile Image"> {{/if}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-
-        </td>
-        <td>
-            <p>{{patient.DateOfBirth}} (Age {{patient.Age}})</p>
-            <p>{{patient.Address.Street}}, {{patient.Address.City.Name}}, {{patient.Address.Province.Name}}, {{patient?.Address.Country.Name}},
-                {{patient.Address.PostalCode}}
-            </p>
-        </td>
-    </tr>
-</table>
-
-<h4>Referring Doctors</h4>
-<table style="width: 100%">
-    <thead>
-        <tr>
-            <th align="left"></th>
-            <th align="left">Email Address</th>
-            <th align="left">Contact Number</th>
-            <th align="left">HPCSA Number</th>
-            <th align="left">Practice Number</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each referringDoctors as |doctor key|}}
-        <tr>
-            <td>{{doctor.Fullname}}</td>
-            <td>{{doctor.ContactDetails.EmailAddress}}</td>
-            <td>{{doctor.ContactDetails.ContactNumber}}</td>
-            <td>{{doctor.HPCSANumber}}</td>
-            <td>{{doctor.PracticeNumber}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
-<h4>Treating Doctors</h4>
-<table style="width: 100%">
-    <thead>
-        <tr>
-            <th align="left"></th>
-            <th align="left">Email Address</th>
-            <th align="left">Contact Number</th>
-            <th align="left">HPCSA Number</th>
-            <th align="left">Practice Number</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each treatingDoctors as |doctor key|}}
-        <tr>
-            <td>{{doctor.Fullname}}</td>
-            <td>{{doctor.ContactDetails.EmailAddress}}</td>
-            <td>{{doctor.ContactDetails.ContactNumber}}</td>
-            <td>{{doctor.HPCSANumber}}</td>
-            <td>{{doctor.PracticeNumber}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
-<h4>Episodes of Care</h4>
-<table style="width: 100%">
-    <thead>
-        <tr>
-            <th align="left">Facility</th>
-            <th align="left">Onset Date</th>
-            <th align="left">Admission Date</th>
-            <th align="left">Discharge Date</th>
-            <th align="left">ICD10 Code</th>
-            <th align="left">Impairment Group</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each episodeOfCares as |episodeOfCare key|}}
-        <tr style="{{#if episodeOfCare.DischargeTimestamp}}{{else}}color: red{{/if}}">
-            <td>{{episodeOfCare.Facility.Name}}</td>
-            <td>{{episodeOfCare.OnsetTimestamp}}</td>
-            <td>{{episodeOfCare.AdmissionTimestamp}}</td>
-            <td>{{episodeOfCare.DischargeTimestamp}}</td>
-            <td>{{episodeOfCare.Diagnoses.Name}}</td>
-            <td>{{episodeOfCare.ImpairmentGroup.Name}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
-<h4>Diagnoses</h4>
-<table style="width: 100%">
-    <thead>
-        <tr>
-            <th align="left">ICD10 Code</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each diagnoses as |item key|}}
-        <tr>
-            <td>{{item.Name}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-<h4>Measurement Tools</h4>
-<table style="width: 100%">
-    <thead>
-        <tr>
-            <th align="left"></th>
-            <th align="left">Frequency</th>
-            <th align="left">Start</th>
-            <th align="left">End</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each patient.MeasurementToolDetails as |measurementTool key|}}
-        <tr style="{{#if measurementTool.DeassignedTimestamp}}{{else}}color: red{{/if}}">
-            <td>{{measurementTool.MeasurementTool.Name}}</td>
-            <td>{{measurementTool.Frequency.Name}}</td>
-            <td>{{measurementTool.AssignedTimestamp}}</td>
-            <td>{{measurementTool.DeassignedTimestamp}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
-<h4>Multidisciplinary Team</h4>
-<table style="width: 100%">
-    <thead>
-        <tr>
-            <th align="left">Clinician</th>
-            <th align="left">Position</th>
-            <th align="left">Start</th>
-            <th align="left">End</th>
-            <th align="left">Facility</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each patient.TeamMembers as |teamMember key|}}
-        <tr style="{{#if teamMember.DeallocationTimestamp}}{{else}}color: red{{/if}}">
-            <td>{{teamMember.User.Fullname}}</td>
-            <td>{{teamMember.User.Position?.Name}}</td>
-            <td>{{teamMember.AllocationTimestamp}}</td>
-            <td>{{teamMember.DeallocationTimestamp}}</td>
-            <td>{{teamMember.Facility?.Name}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
-<h4>Case Manager Notes</h4>
-<table style="width: 100%">
-    <thead>
-        <tr>
-            <th align="left">Timestamp</th>
-            <th align="left">Note</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each caseManagerNotes as |note key|}}
+<body>
+    <table style="width: 100%">
         <tr>
             <td>
-                {{note.Timestamp}}
-                <br /> {{note.User.Fullname}}
-                <br /> {{note.Duration}} minutes
+                {{#if facility.Avatar}}
+                <img src="data:image/png;base64,{{facility.Avatar}}" class="img-thumbnail" width="100" height="100" alt="Profile Image">                {{else}}
+                <img src="http://via.placeholder.com/100x100?text=Facility+logo+not+available" class="img-thumbnail" width="100" height="100"
+                    alt="Profile Image"> {{/if}}
             </td>
             <td>
-                <div>
-                    {{{note.ProgressNotes}}}
-                </div>
+                <h2>Progress Report</h2>
+                <label>{{startDate}} to {{endDate}}</label>
+                <h3>{{patient.Firstname}} {{patient.Lastname}}</h3>
+            </td>
+            <td>
+                {{#if patient.Avatar}}
+                <img src="data:image/png;base64,{{patient.Avatar}}" class="img-thumbnail" width="100" height="100" alt="Profile Image">                {{else}}
+                <img src="http://via.placeholder.com/100x100?text=Patient+photograph+not+available" class="img-thumbnail" width="100" height="100"
+                    alt="Profile Image"> {{/if}}
             </td>
         </tr>
-        {{/each}}
-    </tbody>
-</table>
-
-<h4>Support Services</h4>
-<table style="width: 100%">
-    <thead>
         <tr>
-            <th align="left">Support Services</th>
-            <th align="left"></th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each patient.SupportServices as |supportService key|}}
-        <tr>
-            <td>{{supportService.SupportService.Name}}</td>
-            <td>{{supportService.Text}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+            <td>
 
-{{#if vitalSignsChart}}
-<br>
-<div style="page-break-after:always;"></div>
-<div>
-    <h4>
-        <u>Vital Signs</u>
-    </h4>
-    <img src="{{vitalSignsChart}}" />
-    <br />
-    <br />
-</div>
-{{/if}}
+            </td>
+            <td>
+                <p>{{patient.DateOfBirth}} (Age {{patient.Age}})</p>
+                <p>{{patient.Address.Street}}, {{patient.Address.City.Name}}, {{patient.Address.Province.Name}}, {{patient?.Address.Country.Name}},
+                    {{patient.Address.PostalCode}}
+                </p>
+            </td>
+        </tr>
+    </table>
 
-{{#each charts as |chart key|}}
-<div>
-    {{#if chart.radar}}
+    <h4>Referring Doctors</h4>
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th align="left"></th>
+                <th align="left">Email Address</th>
+                <th align="left">Contact Number</th>
+                <th align="left">HPCSA Number</th>
+                <th align="left">Practice Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each referringDoctors as |doctor key|}}
+            <tr>
+                <td>{{doctor.Fullname}}</td>
+                <td>{{doctor.ContactDetails.EmailAddress}}</td>
+                <td>{{doctor.ContactDetails.ContactNumber}}</td>
+                <td>{{doctor.HPCSANumber}}</td>
+                <td>{{doctor.PracticeNumber}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <h4>Treating Doctors</h4>
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th align="left"></th>
+                <th align="left">Email Address</th>
+                <th align="left">Contact Number</th>
+                <th align="left">HPCSA Number</th>
+                <th align="left">Practice Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each treatingDoctors as |doctor key|}}
+            <tr>
+                <td>{{doctor.Fullname}}</td>
+                <td>{{doctor.ContactDetails.EmailAddress}}</td>
+                <td>{{doctor.ContactDetails.ContactNumber}}</td>
+                <td>{{doctor.HPCSANumber}}</td>
+                <td>{{doctor.PracticeNumber}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <h4>Episodes of Care</h4>
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th align="left">Facility</th>
+                <th align="left">Onset Date</th>
+                <th align="left">Admission Date</th>
+                <th align="left">Discharge Date</th>
+                <th align="left">ICD10 Code</th>
+                <th align="left">Impairment Group</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each episodeOfCares as |episodeOfCare key|}}
+            <tr style="{{#if episodeOfCare.DischargeTimestamp}}{{else}}color: red{{/if}}">
+                <td>{{episodeOfCare.Facility.Name}}</td>
+                <td>{{episodeOfCare.OnsetTimestamp}}</td>
+                <td>{{episodeOfCare.AdmissionTimestamp}}</td>
+                <td>{{episodeOfCare.DischargeTimestamp}}</td>
+                <td>{{episodeOfCare.Diagnoses.Name}}</td>
+                <td>{{episodeOfCare.ImpairmentGroup.Name}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <h4>Diagnoses</h4>
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th align="left">ICD10 Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each diagnoses as |item key|}}
+            <tr>
+                <td>{{item.Name}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <h4>Measurement Tools</h4>
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th align="left"></th>
+                <th align="left">Frequency</th>
+                <th align="left">Start</th>
+                <th align="left">End</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each patient.MeasurementToolDetails as |measurementTool key|}}
+            <tr style="{{#if measurementTool.DeassignedTimestamp}}{{else}}color: red{{/if}}">
+                <td>{{measurementTool.MeasurementTool.Name}}</td>
+                <td>{{measurementTool.Frequency.Name}}</td>
+                <td>{{measurementTool.AssignedTimestamp}}</td>
+                <td>{{measurementTool.DeassignedTimestamp}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <h4>Multidisciplinary Team</h4>
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th align="left">Clinician</th>
+                <th align="left">Position</th>
+                <th align="left">Start</th>
+                <th align="left">End</th>
+                <th align="left">Facility</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each patient.TeamMembers as |teamMember key|}}
+            <tr style="{{#if teamMember.DeallocationTimestamp}}{{else}}color: red{{/if}}">
+                <td>{{teamMember.User.Fullname}}</td>
+                <td>{{teamMember.User.Position?.Name}}</td>
+                <td>{{teamMember.AllocationTimestamp}}</td>
+                <td>{{teamMember.DeallocationTimestamp}}</td>
+                <td>{{teamMember.Facility?.Name}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <h4>Case Manager Notes</h4>
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th align="left">Timestamp</th>
+                <th align="left">Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each caseManagerNotes as |note key|}}
+            <tr>
+                <td>
+                    {{note.Timestamp}}
+                    <br /> {{note.User.Fullname}}
+                    <br /> {{note.Duration}} minutes
+                </td>
+                <td>
+                    <div>
+                        {{{note.ProgressNotes}}}
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <h4>Support Services</h4>
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th align="left">Support Services</th>
+                <th align="left"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each patient.SupportServices as |supportService key|}}
+            <tr>
+                <td>{{supportService.SupportService.Name}}</td>
+                <td>{{supportService.Text}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    {{#if vitalSignsChart}}
     <br>
     <div style="page-break-after:always;"></div>
-    <h4>
-        <u>{{chart.name}} - Radar</u>
-    </h4>
-    <img src="{{chart.radar}}" />
-    {{/if}}
-    {{#if chart.line}}
-    <br>
-    <div style="page-break-after:always;"></div>
-    <h4>
-        <u>{{chart.name}} - Line</u>
-    </h4>
-    <img src="{{chart.line}}" />
-    {{/if}}
-</div>
-{{/each}}
+    <div>
+        <h4>
+            <u>Vital Signs</u>
+        </h4>
+        <img width="100%" src="{{vitalSignsChart}}" />
+        <br />
+        <br />
+    </div>
+    {{/if}} {{#each charts as |chart key|}}
+    <div>
+        {{#if chart.radar}}
+        <br>
+        <div style="page-break-after:always;"></div>
+        <h4>
+            <u>{{chart.name}} - Radar</u>
+        </h4>
+        <img width="100%" src="{{chart.radar}}" /> {{/if}} {{#if chart.line}}
+        <br>
+        <div style="page-break-after:always;"></div>
+        <h4>
+            <u>{{chart.name}} - Line</u>
+        </h4>
+        <img width="100%" src="{{chart.line}}" /> {{/if}}
+    </div>
+    {{/each}}
+</body>
