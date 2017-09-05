@@ -142,31 +142,7 @@
             {{/each}}
         </tbody>
     </table>
-
-    <h4>Multidisciplinary Team</h4>
-    <table style="width: 100%">
-        <thead>
-            <tr>
-                <th align="left">Clinician</th>
-                <th align="left">Position</th>
-                <th align="left">Start</th>
-                <th align="left">End</th>
-                <th align="left">Facility</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each patient.TeamMembers as |teamMember key|}}
-            <tr style="{{#if teamMember.DeallocationTimestamp}}{{else}}color: red{{/if}}">
-                <td>{{teamMember.User.Fullname}}</td>
-                <td>{{teamMember.User.Position?.Name}}</td>
-                <td>{{teamMember.AllocationTimestamp}}</td>
-                <td>{{teamMember.DeallocationTimestamp}}</td>
-                <td>{{teamMember.Facility?.Name}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-
+    
     <h4>Case Manager Notes</h4>
     <table style="width: 100%">
         <thead>
@@ -181,6 +157,9 @@
                 <td>
                     {{note.Timestamp}}
                     <br /> {{note.User.Fullname}}
+                    {{#if note.User.Position}}
+                        <br /> {{note.User.Position.Name}}
+                    {{/if}}
                     <br /> {{note.Duration}} minutes
                 </td>
                 <td>
@@ -212,31 +191,35 @@
     </table>
 
     {{#if vitalSignsChart}}
-    <br>
-    <div style="page-break-after:always;"></div>
-    <div>
-        <h4>
-            <u>Vital Signs</u>
-        </h4>
-        <img width="100%" src="{{vitalSignsChart}}" />
-        <br />
-        <br />
-    </div>
-    {{/if}} {{#each charts as |chart key|}}
-    <div>
-        {{#if chart.radar}}
         <br>
         <div style="page-break-after:always;"></div>
-        <h4>
-            <u>{{chart.name}} - Radar</u>
-        </h4>
-        <img width="100%" src="{{chart.radar}}" /> {{/if}} {{#if chart.line}}
-        <br>
-        <div style="page-break-after:always;"></div>
-        <h4>
-            <u>{{chart.name}} - Line</u>
-        </h4>
-        <img width="100%" src="{{chart.line}}" /> {{/if}}
-    </div>
+        <div>
+            <h4>
+                <u>Vital Signs</u>
+            </h4>
+            <img width="100%" src="{{vitalSignsChart}}" />
+            <br />
+            <br />
+        </div>
+    {{/if}}
+    {{#each charts as |chart key|}}
+        <div>
+            {{#if chart.radar}}
+                <br>
+                <div style="page-break-after:always;"></div>
+                <h4>
+                    <u>{{chart.name}} - Radar</u>
+                </h4>
+                <img width="100%" src="{{chart.radar}}" /> 
+            {{/if}} 
+            {{#if chart.line}}
+                <br>
+                <div style="page-break-after:always;"></div>
+                <h4>
+                    <u>{{chart.name}} - Line</u>
+                </h4>
+                <img width="100%" src="{{chart.line}}" /> 
+            {{/if}}
+        </div>
     {{/each}}
 </body>
