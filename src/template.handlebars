@@ -147,14 +147,14 @@
     <table style="width: 100%">
         <thead>
             <tr>
-                <th align="left">Timestamp</th>
-                <th align="left">Note</th>
+                <th valign="top" align="left">Timestamp</th>
+                <th valign="top" align="left">Note</th>
             </tr>
         </thead>
         <tbody>
             {{#each caseManagerNotes as |note key|}}
             <tr>
-                <td>
+                <td valign="top">
                     {{note.Timestamp}}
                     <br /> {{note.User.Fullname}}
                     {{#if note.User.Position}}
@@ -162,7 +162,7 @@
                     {{/if}}
                     <br /> {{note.Duration}} minutes
                 </td>
-                <td>
+                <td valign="top">
                     <div>
                         {{{note.ProgressNotes}}}
                     </div>
