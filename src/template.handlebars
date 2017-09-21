@@ -142,35 +142,68 @@
             {{/each}}
         </tbody>
     </table>
-    
-    <h4>Case Manager Notes</h4>
-    <table style="width: 100%">
-        <thead>
-            <tr>
-                <th valign="top" align="left">Timestamp</th>
-                <th valign="top" align="left">Note</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each caseManagerNotes as |note key|}}
-            <tr>
-                <td valign="top">
-                    {{note.Timestamp}}
-                    <br /> {{note.User.Fullname}}
-                    {{#if note.User.Position}}
-                        <br /> {{note.User.Position.Name}}
-                    {{/if}}
-                    <br /> {{note.Duration}} minutes
-                </td>
-                <td valign="top">
-                    <div>
-                        {{{note.ProgressNotes}}}
-                    </div>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+
+    {{#if showCaseManagerNotes}}
+        <h4>Case Manager Notes</h4>
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <th valign="top" align="left">Timestamp</th>
+                    <th valign="top" align="left">Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each @root.caseManagerNotes as |note key|}}
+                <tr>
+                    <td valign="top">
+                        {{note.Timestamp}}
+                        <br /> {{note.User.Fullname}}
+                        {{#if note.User.Position}}
+                            <br /> {{note.User.Position.Name}}
+                        {{/if}}
+                        <br /> {{note.Duration}} minutes
+                    </td>
+                    <td valign="top">
+                        <div>
+                            {{{note.ProgressNotes}}}
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/if}}
+
+    {{#if showDailyClinicalNotes}}
+        <h4>Daily Clinical Notes</h4>
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <th valign="top" align="left">Timestamp</th>
+                    <th valign="top" align="left">Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each @root.dailyClinicalNotes as |note key|}}
+                <tr>
+                    <td valign="top">
+                        {{note.Timestamp}}
+                        <br /> {{note.User.Fullname}}
+                        {{#if note.User.Position}}
+                            <br /> {{note.User.Position.Name}}
+                        {{/if}}
+                        <br /> {{note.Duration}} minutes
+                    </td>
+                    <td valign="top">
+                        <div>
+                            {{{note.DailyNotes}}}
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/if}}
 
     <h4>Support Services</h4>
     <table style="width: 100%">
