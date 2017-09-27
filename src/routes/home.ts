@@ -158,7 +158,7 @@ export class HomeRouter {
             json: true,
             encoding: null,
             method: 'POST',
-            uri: `http://localhost:6000/api/convert/topdf`,
+            uri: `http://html-converter.openservices.co.za/api/convert/topdf`,
         });
 
         logger.profile(`${profileId} - To PDF`);
