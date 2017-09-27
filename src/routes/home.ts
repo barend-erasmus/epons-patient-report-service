@@ -7,6 +7,7 @@ import * as Handlebars from 'handlebars';
 import * as moment from 'moment';
 import * as uuid from 'uuid';
 import { footer } from './config';
+import * as HTMLEntities from 'html-entities';
 
 // Imports logger
 import { logger } from './../logger';
@@ -121,15 +122,23 @@ export class HomeRouter {
             return note ? true : false;
         });
 
+        caseManagerNotes.forEach(element => {
+            element.User.Fullname = new HTMLEntities.AllHtmlEntities().encode(element.User.Fullname);
+        });
+
         const dailyClinicalNotes = visits.filter((visit) => {
             const note = visit.DailyNotes ? visit.DailyNotes.replace(/<(?:.|\n)*?>/gm, '') : null;
 
             return note ? true : false;
         });
 
+        dailyClinicalNotes.forEach(element => {
+            element.User.Fullname = new HTMLEntities.AllHtmlEntities().encode(element.User.Fullname);
+        });
+
         logger.profile(`${profileId} - Render Page`);
 
-        const html = await HomeRouter.renderPage(path.join(__dirname, '../template.handlebars'), {
+        let html = await HomeRouter.renderPage(path.join(__dirname, '../template.handlebars'), {
             caseManagerNotes,
             dailyClinicalNotes,
             charts,

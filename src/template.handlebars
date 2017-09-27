@@ -145,7 +145,7 @@
 
     {{#if showCaseManagerNotes}}
         <h4>Case Manager Notes</h4>
-        <table style="width: 100%">
+        <table border="1" style="width: 100%">
             <thead>
                 <tr>
                     <th valign="top" align="left">Timestamp</th>
@@ -157,7 +157,7 @@
                 <tr>
                     <td valign="top">
                         {{note.Timestamp}}
-                        <br /> {{note.User.Fullname}}
+                        <br /> {{{note.User.Fullname}}}
                         {{#if note.User.Position}}
                             <br /> {{note.User.Position.Name}}
                         {{/if}}
@@ -176,7 +176,7 @@
 
     {{#if showDailyClinicalNotes}}
         <h4>Daily Clinical Notes</h4>
-        <table style="width: 100%">
+        <table border="1" style="width: 100%">
             <thead>
                 <tr>
                     <th valign="top" align="left">Timestamp</th>
@@ -188,7 +188,7 @@
                 <tr>
                     <td valign="top">
                         {{note.Timestamp}}
-                        <br /> {{note.User.Fullname}}
+                        <br /> {{{note.User.Fullname}}}
                         {{#if note.User.Position}}
                             <br /> {{note.User.Position.Name}}
                         {{/if}}
