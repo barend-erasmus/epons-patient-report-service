@@ -25,7 +25,7 @@ export class HomeRouter {
         const showCaseManagerNotes = req.body.showCaseManagerNotes;
         const showDailyClinicalNotes = req.body.showDailyClinicalNotes;
 
-        const vitalSignsChart = req.body.charts['Vital Signs']? req.body.charts['Vital Signs']['line'] : null;
+        const vitalSignsChart = req.body.charts['Vital Signs'] ? req.body.charts['Vital Signs']['line'] : null;
 
         const charts = [];
 
@@ -90,8 +90,8 @@ export class HomeRouter {
         logger.profile(`${profileId} - Episode of Cares`);
 
         episodeOfCares.forEach(element => {
-            element.OnsetTimestamp = moment(element.OnsetTimestamp).format('YYYY-MM-DD');
-            element.AdmissionTimestamp = moment(element.AdmissionTimestamp).format('YYYY-MM-DD HH:mm');
+            element.OnsetTimestamp = element.OnsetTimestamp ? moment(element.OnsetTimestamp).format('YYYY-MM-DD') : null;
+            element.AdmissionTimestamp = element.AdmissionTimestamp ? moment(element.AdmissionTimestamp).format('YYYY-MM-DD HH:mm') : null;
             element.DischargeTimestamp = element.DischargeTimestamp ? moment(element.DischargeTimestamp).format('YYYY-MM-DD HH:mm') : null;
         });
 
