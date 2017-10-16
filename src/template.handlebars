@@ -145,16 +145,16 @@
 
     {{#if showCaseManagerNotes}}
         <h4>Case Manager Notes</h4>
-        <table border="1" style="width: 100%">
+        <table cellpadding="0" cellspacing="0" width="100%" style="border: 1px;" rules="none">
             <thead>
                 <tr>
-                    <th valign="top" align="left">Timestamp</th>
+                    <th style="width: 275px" valign="top" align="left">Timestamp</th>
                     <th valign="top" align="left">Note</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each @root.caseManagerNotes as |note key|}}
-                <tr>
+                <tr style="border: thin solid">
                     <td valign="top">
                         {{note.Timestamp}}
                         <br /> {{{note.User.Fullname}}}
@@ -176,16 +176,16 @@
 
     {{#if showDailyClinicalNotes}}
         <h4>Daily Clinical Notes</h4>
-        <table border="1" style="width: 100%">
+        <table cellpadding="0" cellspacing="0" width="100%" style="border: 1px;" rules="none">
             <thead>
                 <tr>
-                    <th valign="top" align="left">Timestamp</th>
-                    <th valign="top" align="left">Note</th>
+                    <th style="width: 275px" valign="top" align="left">Timestamp</th>
+                    <th align="left">Note</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each @root.dailyClinicalNotes as |note key|}}
-                <tr>
+                <tr style="border: thin solid">
                     <td valign="top">
                         {{note.Timestamp}}
                         <br /> {{{note.User.Fullname}}}
