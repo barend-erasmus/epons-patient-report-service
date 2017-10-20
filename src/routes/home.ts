@@ -25,6 +25,14 @@ export class HomeRouter {
         const showCaseManagerNotes = req.body.showCaseManagerNotes;
         const showDailyClinicalNotes = req.body.showDailyClinicalNotes;
 
+        const ePonsFont = await request({
+            headers: {
+                apikey: '2c0d64c1-d002-45f2-9dc4-784c24e996',
+            },
+            json: true,
+            uri: `http://api.sadfm.co.za/api/Setting/Find?name=ePONSFont`,
+        });
+
         const vitalSignsChart = req.body.charts['Vital Signs'] ? req.body.charts['Vital Signs']['line'] : null;
 
         const charts = [];
@@ -153,6 +161,7 @@ export class HomeRouter {
             vitalSignsChart,
             showCaseManagerNotes,
             showDailyClinicalNotes,
+            ePonsFont,
         });
 
         logger.profile(`${profileId} - Render Page`);
