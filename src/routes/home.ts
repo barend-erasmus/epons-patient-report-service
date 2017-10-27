@@ -33,6 +33,14 @@ export class HomeRouter {
             uri: `http://api.sadfm.co.za/api/Setting/Find?name=ePONSFont`,
         });
 
+        const ePonsFontSize = await request({
+            headers: {
+                apikey: '2c0d64c1-d002-45f2-9dc4-784c24e996',
+            },
+            json: true,
+            uri: `http://api.sadfm.co.za/api/Setting/Find?name=ePONSFontSize`,
+        });
+
         const vitalSignsChart = req.body.charts['Vital Signs'] ? req.body.charts['Vital Signs']['line'] : null;
 
         const charts = [];
@@ -162,6 +170,7 @@ export class HomeRouter {
             showCaseManagerNotes,
             showDailyClinicalNotes,
             ePonsFont,
+            ePonsFontSize,
         });
 
         logger.profile(`${profileId} - Render Page`);
