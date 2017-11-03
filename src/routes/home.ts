@@ -67,6 +67,8 @@ export class HomeRouter {
             uri: `http://api.sadfm.co.za/api/Patient/FindById?id=${patientId}`,
         });
 
+        const showSupportServices = patient.SupportServiceDetails.length > 0;
+
         logger.profile(`${profileId} - Patient`);
 
         logger.profile(`${profileId} - Facility`);
@@ -171,6 +173,7 @@ export class HomeRouter {
             showDailyClinicalNotes,
             ePonsFont,
             ePonsFontSize,
+            showSupportServices,
         });
 
         logger.profile(`${profileId} - Render Page`);

@@ -55,6 +55,7 @@
             {{/each}}
         </tbody>
     </table>
+    <hr />
 
     <h4>Treating Doctors</h4>
     <table style="width: 100%">
@@ -79,6 +80,7 @@
             {{/each}}
         </tbody>
     </table>
+    <hr />
 
     <h4>Episodes of Care</h4>
     <table style="width: 100%">
@@ -105,6 +107,7 @@
             {{/each}}
         </tbody>
     </table>
+    <hr />
 
     <h4>Diagnoses</h4>
     <table style="width: 100%">
@@ -121,6 +124,8 @@
             {{/each}}
         </tbody>
     </table>
+    <hr />
+
     <h4>Measurement Tools</h4>
     <table style="width: 100%">
         <thead>
@@ -142,6 +147,7 @@
             {{/each}}
         </tbody>
     </table>
+    <hr />
 
     {{#if showCaseManagerNotes}}
         <h4>Case Manager Notes</h4>
@@ -214,12 +220,20 @@
             </tr>
         </thead>
         <tbody>
-            {{#each patient.SupportServices as |supportService key|}}
-            <tr>
-                <td>{{supportService.SupportService.Name}}</td>
-                <td>{{supportService.Text}}</td>
-            </tr>
-            {{/each}}
+            {{#if showSupportServices}}
+                {{#each patient.SupportServices as |supportService key|}}
+                <tr>
+                    <td>{{supportService.SupportService.Name}}</td>
+                    <td>{{supportService.Text}}</td>
+                </tr>
+                {{/each}}
+            {{else}}
+                <tr>
+                    <td>
+                    No information available
+                    </td>
+                </tr>
+            {{/if}}
         </tbody>
     </table>
 
